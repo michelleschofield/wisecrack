@@ -2,6 +2,19 @@ h1 {
   margin: 0;
 }
 
+form {
+  padding: 1rem;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+}
+
+legend {
+  display: inline;
+}
+
 .header {
   padding: 1rem;
   background-color: rgb(227, 242, 253);

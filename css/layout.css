@@ -1,0 +1,15 @@
+.col-half {
+  width: 50%;
+}
+
+.col-full {
+  width: 100%;
+}
+
+.row {
+  display: flex;
+}
+
+.dir-column {
+  flex-direction: column;
+}
