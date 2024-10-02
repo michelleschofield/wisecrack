@@ -10,6 +10,7 @@ if (!$jokesContainer) throw new Error('$jokesContainer query failed');
 if (!$noJokes) throw new Error('$noJokes query failed');
 if (!$noCategories) throw new Error('$noCategories query failed');
 $form.addEventListener('submit', handleSubmit);
+document.addEventListener('DOMContentLoaded', handleSubmit);
 async function handleSubmit(event) {
   event.preventDefault();
   if (!$form) throw new Error('$form does not exist');
@@ -34,7 +35,6 @@ async function handleSubmit(event) {
   };
   try {
     const jokes = await getJokes(formValues);
-    console.log(jokes);
     jokes.forEach((joke) => {
       const renderedJoke = renderJoke(joke);
       $jokesContainer?.append(renderedJoke);

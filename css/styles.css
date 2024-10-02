@@ -28,6 +28,10 @@ p {
   word-break: break-word;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .hidden {
   display: none !important;
 }
@@ -61,7 +65,7 @@ p {
 .card {
   border: solid 1px rgb(98, 98, 98);
   border-radius: 0.25rem;
-  margin: 1rem;
+  margin: 0.5rem;
   padding: 0.5rem;
   box-shadow: 0 0 5px 1px rgb(118, 118, 118);
   flex-basis: 20rem;
@@ -120,4 +124,5 @@ p {
   border: none;
   padding: 0.5rem;
   border-radius: 0.25rem;
+  margin-top: 1rem;
 }

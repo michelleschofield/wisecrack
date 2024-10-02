@@ -35,6 +35,7 @@ if (!$noJokes) throw new Error('$noJokes query failed');
 if (!$noCategories) throw new Error('$noCategories query failed');
 
 $form.addEventListener('submit', handleSubmit);
+document.addEventListener('DOMContentLoaded', handleSubmit);
 
 async function handleSubmit(event: Event): Promise<void> {
   event.preventDefault();
@@ -67,7 +68,6 @@ async function handleSubmit(event: Event): Promise<void> {
 
   try {
     const jokes = await getJokes(formValues);
-    console.log(jokes);
 
     jokes.forEach((joke) => {
       const renderedJoke = renderJoke(joke);
