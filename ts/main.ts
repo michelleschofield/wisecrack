@@ -3,6 +3,12 @@ interface FormElements extends HTMLFormControlsCollection {
   type: HTMLInputElement;
 }
 
+interface FetchParameters {
+  contains: string;
+  type: string;
+  categories: string;
+}
+
 const $form = document.querySelector('form') as HTMLFormElement;
 const $categories = document.querySelectorAll(
   '[data-category]',
@@ -30,5 +36,28 @@ function handleSubmit(event: Event): void {
     type: $formElements.type.value,
     categories,
   };
-  console.log(formValues);
+  try {
+    getJokes(formValues);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function getJokes(parameters: FetchParameters): Promise<void> {
+  const { categories, type, contains } = parameters;
+  if (!categories.length) throw new Error('must select at least one category');
+
+  const typeQuery = type === 'both' ? '' : `&type=${type}`;
+
+  let containsQuery = '';
+  if (contains.length) {
+    containsQuery = `&contains=${contains}`;
+  }
+
+  const url = `https://v2.jokeapi.dev/joke/${categories}?safe-mode${typeQuery}${containsQuery}`;
+
+  const response = await fetch(url);
+
+  if (!response.ok) throw new Error(`HTTP Error! Error: ${response.status}`);
+  console.log(response);
 }

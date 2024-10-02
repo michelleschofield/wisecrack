@@ -18,5 +18,22 @@ function handleSubmit(event) {
     type: $formElements.type.value,
     categories,
   };
-  console.log(formValues);
+  try {
+    getJokes(formValues);
+  } catch (err) {
+    console.log(err);
+  }
+}
+async function getJokes(parameters) {
+  const { categories, type, contains } = parameters;
+  if (!categories.length) throw new Error('must select at least one category');
+  const typeQuery = type === 'both' ? '' : `&type=${type}`;
+  let containsQuery = '';
+  if (contains.length) {
+    containsQuery = `&contains=${contains}`;
+  }
+  const url = `https://v2.jokeapi.dev/joke/${categories}?safe-mode${typeQuery}${containsQuery}`;
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`HTTP Error! Error: ${response.status}`);
+  console.log(response);
 }
