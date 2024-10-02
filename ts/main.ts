@@ -24,9 +24,11 @@ const $form = document.querySelector('form') as HTMLFormElement;
 const $categories = document.querySelectorAll(
   '[data-category]',
 ) as NodeListOf<HTMLInputElement>;
+const $jokesContainer = document.querySelector('.jokes-container');
 
 if (!$form) throw new Error('$form query failed');
 if (!$categories) throw new Error('$categories query failed');
+if (!$jokesContainer) throw new Error('$jokesContainer query failed');
 
 $form.addEventListener('submit', handleSubmit);
 
@@ -49,9 +51,15 @@ async function handleSubmit(event: Event): Promise<void> {
     type: $formElements.type.value,
     categories,
   };
+
   try {
     const jokes = await getJokes(formValues);
     console.log(jokes);
+    $jokesContainer?.replaceChildren();
+    jokes.forEach((joke) => {
+      const renderedJoke = renderJoke(joke);
+      $jokesContainer?.append(renderedJoke);
+    });
   } catch (err) {
     console.log(err);
   }
@@ -78,7 +86,48 @@ async function getJokes(parameters: FetchParameters): Promise<Joke[]> {
   return jokes;
 }
 
-// function renderJoke(joke: Joke): HTMLDivElement {
-//   const $card = document.createElement('div');
-//   return $card;
-// }
+function renderJoke(joke: Joke): HTMLDivElement {
+  const $card = document.createElement('div');
+  $card.className = 'card';
+
+  if (joke.joke) {
+    const $joke = document.createElement('p');
+
+    $joke.textContent = joke.joke;
+    $joke.className = 'setup delivery';
+
+    $card.appendChild($joke);
+  } else if (joke.setup && joke.delivery) {
+    const $jokeHolder = document.createElement('div');
+    const $setup = document.createElement('p');
+    const $delivery = document.createElement('p');
+
+    $setup.textContent = joke.setup;
+    $delivery.textContent = joke.delivery;
+
+    $setup.className = 'setup';
+    $delivery.className = 'delivery';
+
+    $jokeHolder.append($setup, $delivery);
+    $card.append($jokeHolder);
+  }
+
+  const $buttonHolder = document.createElement('div');
+  const $favButton = document.createElement('button');
+  const $addButton = document.createElement('button');
+  const $favIcon = document.createElement('i');
+  const $addIcon = document.createElement('i');
+
+  $buttonHolder.className = 'row justify-right';
+  $favButton.className = 'card-button fav';
+  $addButton.className = 'card-button add';
+  $favIcon.className = 'fa-regular fa-star';
+  $addIcon.className = 'fa-solid fa-plus';
+
+  $favButton.append($favIcon);
+  $addButton.append($addIcon);
+  $buttonHolder.append($favButton, $addButton);
+  $card.append($buttonHolder);
+
+  return $card;
+}

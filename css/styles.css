@@ -63,7 +63,11 @@ i {
   margin: 1rem;
   padding: 0.5rem;
   box-shadow: 0 0 5px 1px rgb(118, 118, 118);
+  flex-basis: 20rem;
   max-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .setup {
