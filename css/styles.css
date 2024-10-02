@@ -1,0 +1,128 @@
+body {
+  font-family: sans-serif;
+}
+
+h1 {
+  margin: 0;
+}
+
+form {
+  padding: 0.5rem;
+}
+
+fieldset {
+  border: none;
+  padding: 0;
+  margin: 0.5rem;
+}
+
+legend {
+  display: inline;
+}
+
+i {
+  width: 1rem;
+}
+
+p {
+  word-break: break-word;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.header {
+  padding: 1rem;
+  background-color: rgb(227, 242, 253);
+}
+
+.logo {
+  font-family: 'Tilt Warp', sans-serif;
+}
+
+.tab-container {
+  display: flex;
+  background-color: rgb(231, 231, 231);
+}
+
+.tab {
+  padding: 0.5rem;
+  border: solid;
+  border-color: rgb(176, 176, 176);
+  cursor: pointer;
+}
+
+.tab.active {
+  background-color: rgb(255, 255, 255);
+  border-bottom: none;
+}
+
+.card {
+  border: solid 1px rgb(98, 98, 98);
+  border-radius: 0.25rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  box-shadow: 0 0 5px 1px rgb(118, 118, 118);
+  flex-basis: 20rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.setup {
+  margin-top: 0;
+}
+
+.delivery {
+  margin-bottom: 0;
+}
+
+.card-button {
+  margin: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 2px 2px rgb(141, 141, 141);
+}
+
+.add {
+  background-color: rgb(238, 194, 235);
+}
+
+.fav {
+  background-color: rgb(204, 234, 249);
+}
+
+.small-grey-text {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0.25rem;
+  font-size: small;
+  color: rgb(118, 118, 118);
+}
+
+.no-categories,
+.no-jokes {
+  padding: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  border-color: rgb(165, 0, 0);
+  box-shadow: 0 0 5px 1px rgb(165, 0, 0);
+}
+
+.fa-triangle-exclamation {
+  margin: 0.5rem;
+  color: rgb(165, 0, 0);
+}
+
+.new-jokes {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin-top: 1rem;
+}

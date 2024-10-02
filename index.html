@@ -1,20 +1,133 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
-  <link rel="icon" href="images/favicon.ico">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/styles.css">
-</head>
-<body>
-  <header>
-  </header>
-  <main>
-  </main>
-  <script src="js/data.js"></script>
-  <script src="js/main.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AJAX Project</title>
+    <link rel="icon" href="images/favicon.ico" />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tilt+Warp&display=swap"
+      rel="stylesheet" />
+  </head>
+  <body>
+    <header>
+      <div class="header">
+        <h1 class="logo">WiseCrack</h1>
+      </div>
+    </header>
+    <main>
+      <div class="tab-container">
+        <div class="tab active">Jokes</div>
+        <div class="tab">My Collection</div>
+      </div>
+      <div class="view-container">
+        <form class="col-full">
+          <div class="row">
+            <div>
+              <label for="contains"> Contains Word:</label>
+              <input
+                name="contains"
+                type="text"
+                id="contains"
+                placeholder="Word I want in my jokes"
+                class="col-full" />
+              <fieldset>
+                <legend>Type:</legend>
+                <div class="row wrap">
+                  <div>
+                    <label
+                      ><input name="type" value="single" type="radio" />Single
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      ><input name="type" value="twopart" type="radio" />
+                      Two-Part
+                    </label>
+                  </div>
+                  <div>
+                    <label
+                      ><input
+                        name="type"
+                        checked
+                        value="both"
+                        type="radio" />Both</label
+                    >
+                  </div>
+                </div>
+              </fieldset>
+              <button class="new-jokes">
+                <i class="fa-solid fa-arrows-rotate"></i>New Jokes
+              </button>
+            </div>
+            <div class="col-half">
+              <fieldset name="categories">
+                <legend>Categories</legend>
+                <p class="small-grey-text">(Must select at least one)</p>
+                <div class="row dir-column">
+                  <label
+                    ><input
+                      checked
+                      value="Programming"
+                      data-category
+                      type="checkbox" />Programming</label
+                  >
+                  <label
+                    ><input
+                      checked
+                      value="Pun"
+                      data-category
+                      type="checkbox" />Pun</label
+                  >
+                  <label
+                    ><input
+                      checked
+                      value="Spooky"
+                      data-category
+                      type="checkbox" />Spooky</label
+                  >
+                  <label
+                    ><input
+                      checked
+                      value="Christmas"
+                      data-category
+                      type="checkbox" />Christmas</label
+                  >
+                  <label
+                    ><input
+                      checked
+                      value="Misc"
+                      data-category
+                      type="checkbox" />Misc</label
+                  >
+                </div>
+              </fieldset>
+            </div>
+          </div>
+        </form>
+        <div class="row">
+          <div class="no-jokes hidden card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>Sorry, it seems there are no jokes that match your search.</p>
+          </div>
+          <div class="no-categories hidden card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>You must select at least one category</p>
+          </div>
+          <div class="jokes-container col-full row wrap"></div>
+        </div>
+      </div>
+      <div class="view-container"></div>
+    </main>
+    <script src="js/data.js"></script>
+    <script src="js/main.js"></script>
+    <script
+      src="https://kit.fontawesome.com/8330c2924c.js"
+      crossorigin="anonymous"></script>
+  </body>
 </html>
