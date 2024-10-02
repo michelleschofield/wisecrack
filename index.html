@@ -22,10 +22,10 @@
     </header>
     <main>
       <div class="tab-container">
-        <div class="tab active">Jokes</div>
-        <div class="tab">My Collection</div>
+        <div data-tab="search" class="tab active">Jokes</div>
+        <div data-tab="collection" class="tab">My Collection</div>
       </div>
-      <div class="view-container">
+      <div data-view="search" class="view-container">
         <form class="col-full">
           <div class="row">
             <div>
@@ -122,7 +122,9 @@
           <div class="jokes-container col-full row wrap"></div>
         </div>
       </div>
-      <div class="view-container"></div>
+      <div data-view="collection" class="view-container">
+        <div class="collection row wrap"></div>
+      </div>
     </main>
     <script src="js/data.js"></script>
     <script src="js/main.js"></script>
