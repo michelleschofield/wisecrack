@@ -124,7 +124,7 @@ function handleClick(event: Event): void {
     if (!inCollection) {
       data.push(jokeInfo);
       writeData();
-      $collection?.append(renderJoke(jokeInfo, 'search'));
+      $collection?.append(renderJoke(jokeInfo, 'collection'));
     }
 
     if ($eventTarget.tagName === 'BUTTON') {

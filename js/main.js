@@ -84,7 +84,7 @@ function handleClick(event) {
     if (!inCollection) {
       data.push(jokeInfo);
       writeData();
-      $collection?.append(renderJoke(jokeInfo, 'search'));
+      $collection?.append(renderJoke(jokeInfo, 'collection'));
     }
     if ($eventTarget.tagName === 'BUTTON') {
       $eventTarget.className = 'card-button checked';
