@@ -1,6 +1,7 @@
-/* exported data */
+/* exported writeData */
 const data: Joke[] = readData();
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function writeData(): void {
   const dataJSON = JSON.stringify(data);
   localStorage.setItem('jokeCollection', dataJSON);
@@ -12,5 +13,3 @@ function readData(): Joke[] {
 
   return JSON.parse(dataJSON);
 }
-
-writeData();
