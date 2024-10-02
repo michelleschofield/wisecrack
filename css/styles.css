@@ -19,6 +19,14 @@ legend {
   display: inline;
 }
 
+i {
+  width: 1rem;
+}
+
+.hidden {
+  display: none !important;
+}
+
 .header {
   padding: 1rem;
   background-color: rgb(227, 242, 253);
@@ -47,4 +55,37 @@ legend {
 
 .no-jokes {
   padding: 1rem;
+}
+
+.card {
+  border: solid 1px rgb(98, 98, 98);
+  border-radius: 0.25rem;
+  margin: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 0 5px 1px rgb(118, 118, 118);
+  max-width: 20rem;
+}
+
+.setup {
+  margin-top: 0;
+}
+
+.delivery {
+  margin-bottom: 0;
+}
+
+.card-button {
+  margin: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  border: none;
+  box-shadow: 0 2px 2px rgb(141, 141, 141);
+}
+
+.add {
+  background-color: rgb(238, 194, 235);
+}
+
+.fav {
+  background-color: rgb(204, 234, 249);
 }

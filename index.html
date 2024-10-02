@@ -37,7 +37,7 @@
                 placeholder="Word I want in my jokes"
                 class="col-full" />
               <fieldset>
-                <label>Type:</label>
+                <legend>Type:</legend>
                 <label
                   ><input name="type" value="single" type="radio" />Single
                 </label>
@@ -61,12 +61,6 @@
               <fieldset name="categories">
                 <legend>Categories</legend>
                 <div class="row dir-column">
-                  <label
-                    ><input
-                      value="Dark"
-                      data-category
-                      type="checkbox" />Dark</label
-                  >
                   <label
                     ><input
                       value="Programming"
@@ -103,7 +97,38 @@
           </div>
         </form>
         <div class="row">
-          <div class="no-jokes">
+          <div class="jokes-container col-full">
+            <div class="card">
+              <p class="setup">
+                To prove he was right, the flat-earther walked to the end of the
+                Earth.
+              </p>
+              <p class="delivery">He eventually came around.</p>
+              <div class="row justify-right">
+                <button class="card-button fav">
+                  <i class="fa-regular fa-star"></i>
+                </button>
+                <button class="card-button add">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card">
+              <p class="setup delivery">
+                Oysters hate to give away their pearls because they are
+                shellfish.
+              </p>
+              <div class="row justify-right">
+                <button class="card-button fav">
+                  <i class="fa-regular fa-star"></i>
+                </button>
+                <button class="card-button add">
+                  <i class="fa-solid fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="no-jokes hidden">
             <p>Sorry, it seems there are no jokes that match your search.</p>
           </div>
         </div>

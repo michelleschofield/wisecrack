@@ -13,3 +13,7 @@
 .dir-column {
   flex-direction: column;
 }
+
+.justify-right {
+  justify-content: flex-end;
+}
