@@ -7,12 +7,13 @@ h1 {
 }
 
 form {
-  padding: 1rem;
+  padding: 0.5rem;
 }
 
 fieldset {
   border: none;
   padding: 0;
+  margin: 0.5rem;
 }
 
 legend {
@@ -113,4 +114,10 @@ p {
 .fa-triangle-exclamation {
   margin: 0.5rem;
   color: rgb(165, 0, 0);
+}
+
+.new-jokes {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
 }
