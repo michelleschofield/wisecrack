@@ -31,34 +31,82 @@
             <div>
               <label for="contains"> Contains Word:</label>
               <input
+                name="contains"
                 type="text"
                 id="contains"
                 placeholder="Word I want in my jokes"
                 class="col-full" />
               <fieldset>
                 <label>Type:</label>
-                <label> <input type="checkbox" />Single </label>
-                <label><input type="checkbox" /> Two-Part </label>
+                <label
+                  ><input name="type" value="single" type="radio" />Single
+                </label>
+                <label
+                  ><input name="type" value="twopart" type="radio" />
+                  Two-Part
+                </label>
+                <label
+                  ><input
+                    name="type"
+                    checked
+                    value="both"
+                    type="radio" />Both</label
+                >
               </fieldset>
               <button>
                 <i class="fa-solid fa-arrows-rotate"></i>New Jokes
               </button>
             </div>
             <div class="col-half">
-              <fieldset>
+              <fieldset name="categories">
                 <legend>Categories</legend>
                 <div class="row dir-column">
-                  <label><input type="checkbox" />Dark</label>
-                  <label><input type="checkbox" />Programming</label>
-                  <label><input type="checkbox" />Puns</label>
-                  <label><input type="checkbox" />Spooky</label>
-                  <label><input type="checkbox" />Christmas</label>
-                  <label><input type="checkbox" />Misc</label>
+                  <label
+                    ><input
+                      value="Dark"
+                      data-category
+                      type="checkbox" />Dark</label
+                  >
+                  <label
+                    ><input
+                      value="Programming"
+                      data-category
+                      type="checkbox" />Programming</label
+                  >
+                  <label
+                    ><input
+                      value="Pun"
+                      data-category
+                      type="checkbox" />Pun</label
+                  >
+                  <label
+                    ><input
+                      value="Spooky"
+                      data-category
+                      type="checkbox" />Spooky</label
+                  >
+                  <label
+                    ><input
+                      value="Christmas"
+                      data-category
+                      type="checkbox" />Christmas</label
+                  >
+                  <label
+                    ><input
+                      value="Misc"
+                      data-category
+                      type="checkbox" />Misc</label
+                  >
                 </div>
               </fieldset>
             </div>
           </div>
         </form>
+        <div class="row">
+          <div class="no-jokes">
+            <p>Sorry, it seems there are no jokes that match your search.</p>
+          </div>
+        </div>
       </div>
       <div class="view-container"></div>
     </main>
