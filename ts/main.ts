@@ -10,10 +10,11 @@ interface FetchParameters {
 }
 
 interface Joke {
-  type: string;
   setup?: string;
   delivery?: string;
   joke?: string;
+  category: string;
+  id: number;
 }
 
 interface FetchResponse {
