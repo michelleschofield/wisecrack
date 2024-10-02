@@ -98,6 +98,10 @@ button:hover {
   background-color: rgb(204, 234, 249);
 }
 
+.checked {
+  background-color: rgb(203, 255, 173);
+}
+
 .small-grey-text {
   margin-top: 0;
   margin-bottom: 0;

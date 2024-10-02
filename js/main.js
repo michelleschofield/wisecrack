@@ -57,6 +57,17 @@ function handleClick(event) {
       data.push(jokeInfo);
       writeData();
     }
+    if ($eventTarget.tagName === 'BUTTON') {
+      $eventTarget.className = 'card-button checked';
+      const $icon = $eventTarget.firstChild;
+      if (!$icon) throw new Error('button does not have icon');
+      $icon.className = 'fa-solid fa-check checked';
+    } else if ($eventTarget.tagName === 'I') {
+      $eventTarget.className = 'fa-solid fa-check checked';
+      const $button = $eventTarget.parentElement;
+      if (!$button) throw new Error('Add button does not have a button');
+      $button.className = 'card-button checked';
+    }
   }
 }
 async function handleSubmit(event) {
