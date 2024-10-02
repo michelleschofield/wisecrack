@@ -124,7 +124,7 @@ function handleClick(event: Event): void {
     if (!inCollection) {
       data.push(jokeInfo);
       writeData();
-      $collection?.append(renderJoke(jokeInfo));
+      $collection?.append(renderJoke(jokeInfo, 'search'));
     }
 
     if ($eventTarget.tagName === 'BUTTON') {
@@ -178,7 +178,7 @@ async function handleSubmit(event: Event): Promise<void> {
     const jokes = await getJokes(formValues);
 
     jokes.forEach((joke) => {
-      const renderedJoke = renderJoke(joke);
+      const renderedJoke = renderJoke(joke, 'search');
       $jokesContainer?.append(renderedJoke);
     });
 
@@ -211,7 +211,7 @@ async function getJokes(parameters: FetchParameters): Promise<Joke[]> {
   return jokes;
 }
 
-function renderJoke(joke: Joke): HTMLDivElement {
+function renderJoke(joke: Joke, view: string): HTMLDivElement {
   const $card = document.createElement('div');
 
   $card.className = 'card';
@@ -241,53 +241,87 @@ function renderJoke(joke: Joke): HTMLDivElement {
     $card.append($jokeHolder);
   }
 
-  let isInCollection = false;
-
-  data.forEach((jokeInData) => {
-    if (jokeInData.id === joke.id) {
-      isInCollection = true;
-    }
-  });
-
   const $buttonHolder = document.createElement('div');
-
-  if (isInCollection) {
-    const $checkButton = document.createElement('button');
-    const $checkIcon = document.createElement('i');
-
-    $checkButton.className = 'card-button checked';
-    $checkIcon.className = 'fa-solid fa-check checked';
-
-    $checkButton.append($checkIcon);
-    $buttonHolder.append($checkButton);
-  } else {
-    const $addButton = document.createElement('button');
-    const $addIcon = document.createElement('i');
-
-    $addButton.className = 'card-button add';
-    $addIcon.className = 'fa-solid fa-plus add';
-
-    $addButton.append($addIcon);
-    $buttonHolder.append($addButton);
-  }
-
-  const $favButton = document.createElement('button');
-  const $favIcon = document.createElement('i');
-
   $buttonHolder.className = 'row justify-right';
-  $favButton.className = 'card-button fav';
-  $favIcon.className = 'fa-regular fa-star fav';
 
-  $favButton.append($favIcon);
-  $buttonHolder.prepend($favButton);
+  const $favButton = renderHollowFavButton();
+
+  $buttonHolder.append($favButton);
   $card.append($buttonHolder);
+
+  if (view === 'collection') {
+    const $xButton = renderXButton();
+    $buttonHolder.append($xButton);
+  } else if (view === 'search') {
+    let isInCollection = false;
+
+    data.forEach((jokeInData) => {
+      if (jokeInData.id === joke.id) {
+        isInCollection = true;
+      }
+    });
+
+    if (isInCollection) {
+      const $checkButton = renderCheckedButton();
+      $buttonHolder.append($checkButton);
+    } else {
+      const $addButton = renderAddButton();
+      $buttonHolder.append($addButton);
+    }
+  } else {
+    throw new Error('Rendered card must be for either search or collection');
+  }
 
   return $card;
 }
 
+function renderAddButton(): HTMLButtonElement {
+  const $addButton = document.createElement('button');
+  const $addIcon = document.createElement('i');
+
+  $addButton.className = 'card-button add';
+  $addIcon.className = 'fa-solid fa-plus add';
+
+  $addButton.append($addIcon);
+  return $addButton;
+}
+
+function renderCheckedButton(): HTMLButtonElement {
+  const $checkButton = document.createElement('button');
+  const $checkIcon = document.createElement('i');
+
+  $checkButton.className = 'card-button checked';
+  $checkIcon.className = 'fa-solid fa-check checked';
+
+  $checkButton.append($checkIcon);
+  return $checkButton;
+}
+
+function renderHollowFavButton(): HTMLButtonElement {
+  const $favButton = document.createElement('button');
+  const $favIcon = document.createElement('i');
+
+  $favButton.className = 'card-button fav';
+  $favIcon.className = 'fa-regular fa-star fav';
+
+  $favButton.append($favIcon);
+  return $favButton;
+}
+
+function renderXButton(): HTMLButtonElement {
+  const $xButton = document.createElement('button');
+  const $xIcon = document.createElement('i');
+
+  $xButton.className = 'card-button x';
+  $xIcon.className = 'fa-regular fa-x x';
+
+  $xButton.append($xIcon);
+  return $xButton;
+}
+
 function renderCollection(): void {
   data.forEach((joke) => {
-    const $card = renderJoke(joke);
+    const $card = renderJoke(joke, 'collection');
     $collection?.append($card);
   });
 }
