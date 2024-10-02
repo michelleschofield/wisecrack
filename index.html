@@ -60,6 +60,7 @@
             <div class="col-half">
               <fieldset name="categories">
                 <legend>Categories</legend>
+                <p class="small-grey-text">(Must select at least one)</p>
                 <div class="row dir-column">
                   <label
                     ><input
@@ -102,40 +103,15 @@
           </div>
         </form>
         <div class="row">
-          <div class="jokes-container col-full row wrap">
-            <div class="card">
-              <p class="setup">
-                To prove he was right, the flat-earther walked to the end of the
-                Earth.
-              </p>
-              <p class="delivery">He eventually came around.</p>
-              <div class="row justify-right">
-                <button class="card-button fav">
-                  <i class="fa-regular fa-star"></i>
-                </button>
-                <button class="card-button add">
-                  <i class="fa-solid fa-plus"></i>
-                </button>
-              </div>
-            </div>
-            <div class="card">
-              <p class="setup delivery">
-                Oysters hate to give away their pearls because they are
-                shellfish.
-              </p>
-              <div class="row justify-right">
-                <button class="card-button fav">
-                  <i class="fa-regular fa-star"></i>
-                </button>
-                <button class="card-button add">
-                  <i class="fa-solid fa-plus"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="no-jokes hidden">
+          <div class="no-jokes hidden card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
             <p>Sorry, it seems there are no jokes that match your search.</p>
           </div>
+          <div class="no-categories hidden card">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <p>You must select at least one category</p>
+          </div>
+          <div class="jokes-container col-full row wrap"></div>
         </div>
       </div>
       <div class="view-container"></div>

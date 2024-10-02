@@ -2,20 +2,31 @@
 const $form = document.querySelector('form');
 const $categories = document.querySelectorAll('[data-category]');
 const $jokesContainer = document.querySelector('.jokes-container');
+const $noJokes = document.querySelector('.no-jokes');
+const $noCategories = document.querySelector('.no-categories');
 if (!$form) throw new Error('$form query failed');
 if (!$categories) throw new Error('$categories query failed');
 if (!$jokesContainer) throw new Error('$jokesContainer query failed');
+if (!$noJokes) throw new Error('$noJokes query failed');
+if (!$noCategories) throw new Error('$noCategories query failed');
 $form.addEventListener('submit', handleSubmit);
 async function handleSubmit(event) {
   event.preventDefault();
-  if (!$form) return;
+  if (!$form) throw new Error('$form does not exist');
+  if (!$noJokes) throw new Error('$noJokes does not exist');
+  if (!$noCategories) throw new Error('$noCategories does not exist');
   const $formElements = $form.elements;
   const categoriesArray = [];
   $categories.forEach((checkbox) => {
     if (checkbox.checked) categoriesArray.push(checkbox.value);
   });
   const categories = categoriesArray.join(',');
-  if (!categories.length) throw new Error('must select at least one category');
+  $jokesContainer?.replaceChildren();
+  if (!categories.length) {
+    $noCategories.className = 'no-categories card';
+    $noJokes.className = 'no-jokes card hidden';
+    return;
+  }
   const formValues = {
     contains: $formElements.contains.value,
     type: $formElements.type.value,
@@ -24,13 +35,15 @@ async function handleSubmit(event) {
   try {
     const jokes = await getJokes(formValues);
     console.log(jokes);
-    $jokesContainer?.replaceChildren();
     jokes.forEach((joke) => {
       const renderedJoke = renderJoke(joke);
       $jokesContainer?.append(renderedJoke);
     });
-  } catch (err) {
-    console.log(err);
+    $noCategories.className = 'no-categories card hidden';
+    $noJokes.className = 'no-jokes card hidden';
+  } catch {
+    $noJokes.className = 'no-jokes card';
+    $noCategories.className = 'no-categories card hidden';
   }
 }
 async function getJokes(parameters) {

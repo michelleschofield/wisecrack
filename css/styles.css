@@ -23,6 +23,10 @@ i {
   width: 1rem;
 }
 
+p {
+  word-break: break-word;
+}
+
 .hidden {
   display: none !important;
 }
@@ -53,10 +57,6 @@ i {
   border-bottom: none;
 }
 
-.no-jokes {
-  padding: 1rem;
-}
-
 .card {
   border: solid 1px rgb(98, 98, 98);
   border-radius: 0.25rem;
@@ -64,7 +64,6 @@ i {
   padding: 0.5rem;
   box-shadow: 0 0 5px 1px rgb(118, 118, 118);
   flex-basis: 20rem;
-  max-width: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -92,4 +91,26 @@ i {
 
 .fav {
   background-color: rgb(204, 234, 249);
+}
+
+.small-grey-text {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0.25rem;
+  font-size: small;
+  color: rgb(118, 118, 118);
+}
+
+.no-categories,
+.no-jokes {
+  padding: 0.5rem;
+  flex-direction: row;
+  align-items: center;
+  border-color: rgb(165, 0, 0);
+  box-shadow: 0 0 5px 1px rgb(165, 0, 0);
+}
+
+.fa-triangle-exclamation {
+  margin: 0.5rem;
+  color: rgb(165, 0, 0);
 }
