@@ -118,6 +118,7 @@ function unFavorite($card) {
     }
   }
   if ($otherCard) {
+    $otherCard.removeAttribute('data-favorite');
     const $otherFavButton = $otherCard.querySelector('.faved');
     if ($otherFavButton) changeToHollowFav($otherFavButton);
   }
@@ -128,10 +129,6 @@ function markAsFaved($card) {
   const $favButton = $card.querySelector('.fav');
   if (!$favButton) throw new Error('$card does not have fav button');
   changeToFaved($favButton);
-  // const $view = $card.parentElement;
-  // if ($view?.matches('.collection')) {
-  //   $collection?.prepend($card);
-  // }
   const $view = $card.parentElement;
   let $otherCard;
   if ($view?.matches('.collection')) {
@@ -144,8 +141,9 @@ function markAsFaved($card) {
     }
   }
   if ($otherCard) {
-    const $otherFavButton = $otherCard.querySelector('.faved');
+    const $otherFavButton = $otherCard.querySelector('.fav');
     if ($otherFavButton) changeToHollowFav($otherFavButton);
+    $otherCard.setAttribute('data-favorite', 'true');
   }
   $card.setAttribute('data-favorite', 'true');
   const jokeInData = data.find((joke) => joke.id === +id);

@@ -170,6 +170,7 @@ function unFavorite($card: HTMLDivElement): void {
   }
 
   if ($otherCard) {
+    $otherCard.removeAttribute('data-favorite');
     const $otherFavButton = $otherCard.querySelector(
       '.faved',
     ) as HTMLButtonElement;
@@ -184,12 +185,6 @@ function markAsFaved($card: HTMLDivElement): void {
   const $favButton = $card.querySelector('.fav') as HTMLButtonElement;
   if (!$favButton) throw new Error('$card does not have fav button');
   changeToFaved($favButton);
-
-  // const $view = $card.parentElement;
-
-  // if ($view?.matches('.collection')) {
-  //   $collection?.prepend($card);
-  // }
 
   const $view = $card.parentElement;
   let $otherCard;
@@ -206,9 +201,10 @@ function markAsFaved($card: HTMLDivElement): void {
 
   if ($otherCard) {
     const $otherFavButton = $otherCard.querySelector(
-      '.faved',
+      '.fav',
     ) as HTMLButtonElement;
     if ($otherFavButton) changeToHollowFav($otherFavButton);
+    $otherCard.setAttribute('data-favorite', 'true');
   }
 
   $card.setAttribute('data-favorite', 'true');
