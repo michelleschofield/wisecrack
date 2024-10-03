@@ -63,6 +63,7 @@ function deleteConfirmed() {
 function viewSwap(event) {
   const $eventTarget = event.target;
   const view = $eventTarget.getAttribute('data-tab');
+  if (!$eventTarget.matches('.tab')) return;
   $tabs.forEach(($tab) => {
     if ($tab.getAttribute('data-tab') === view) {
       $tab.className = 'tab active';

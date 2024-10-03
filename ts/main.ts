@@ -104,6 +104,7 @@ function deleteConfirmed(): void {
 function viewSwap(event: Event): void {
   const $eventTarget = event.target as HTMLElement;
   const view = $eventTarget.getAttribute('data-tab');
+  if (!$eventTarget.matches('.tab')) return;
 
   $tabs.forEach(($tab) => {
     if ($tab.getAttribute('data-tab') === view) {
