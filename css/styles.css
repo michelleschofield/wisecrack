@@ -134,3 +134,28 @@ button:hover {
   border-radius: 0.25rem;
   margin-top: 1rem;
 }
+
+.confirm {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  background-color: rgb(165, 0, 0);
+  color: white;
+  margin: 0.25rem;
+}
+
+.cancel {
+  border: none;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  margin: 0.25rem;
+}
+
+.delete-confirmation {
+  border: none;
+  border-radius: 0.5rem;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.8);
+}

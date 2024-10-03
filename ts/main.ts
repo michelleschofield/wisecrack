@@ -37,6 +37,7 @@ const $confirmationDialog = document.querySelector(
   '.delete-confirmation',
 ) as HTMLDialogElement;
 const $confirmButton = document.querySelector('.confirm');
+const $cancelButton = document.querySelector('.cancel');
 
 if (!$form) throw new Error('$form query failed');
 if (!$categories) throw new Error('$categories query failed');
@@ -47,6 +48,7 @@ if (!$tabContainer) throw new Error('$tabContainer query failed');
 if (!$collection) throw new Error('$collection query failed');
 if (!$confirmationDialog) throw new Error('$confirmationDialog query failed');
 if (!$confirmButton) throw new Error('$confirmButton query failed');
+if (!$cancelButton) throw new Error('$cancelButton query failed');
 
 $form.addEventListener('submit', handleSubmit);
 document.addEventListener('DOMContentLoaded', (event: Event) => {
@@ -57,6 +59,12 @@ $jokesContainer.addEventListener('click', handleClick);
 $tabContainer.addEventListener('click', viewSwap);
 $collection.addEventListener('click', handleClick);
 $confirmButton.addEventListener('click', deleteConfirmed);
+$cancelButton.addEventListener('click', cancelDelete);
+
+function cancelDelete(): void {
+  $confirmationDialog.close();
+  $confirmationDialog.removeAttribute('data-deleting');
+}
 
 function deleteConfirmed(): void {
   $confirmationDialog.close();
@@ -72,6 +80,8 @@ function deleteConfirmed(): void {
   const index = data.findIndex((joke) => joke.id === +id);
   data.splice(index, 1);
   writeData();
+
+  $confirmationDialog.removeAttribute('data-deleting');
 
   const $cardInSearch = $jokesContainer?.querySelector(`[data-id="${id}"]`);
   if ($cardInSearch) {
