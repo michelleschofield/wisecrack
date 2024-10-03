@@ -191,8 +191,6 @@ function addToCollection($card: HTMLDivElement): void {
     jokeInfo.favorite = favorite;
   }
 
-  console.log(jokeInfo);
-
   if (type === 'single') {
     const joke = $card.textContent;
     if (!joke) throw new Error('Joke does not have any text content');
@@ -330,30 +328,32 @@ function renderJoke(joke: Joke, view: string): HTMLDivElement {
 
   $card.append($buttonHolder);
 
+  const $favButton = renderHollowFavButton();
+  $buttonHolder.append($favButton);
+
   if (joke.favorite) {
-    $card.setAttribute('data-favorite', `${joke.favorite}`);
-    const $favedButton = renderSolidFavedButton();
-    $buttonHolder.append($favedButton);
-  } else {
-    const $favButton = renderHollowFavButton();
-    $buttonHolder.append($favButton);
+    changeToFaved($favButton);
   }
 
   if (view === 'collection') {
     const $xButton = renderTrashButton();
     $buttonHolder.append($xButton);
   } else if (view === 'search') {
-    let isInCollection = false;
+    let isInCollection: Joke | undefined;
 
     data.forEach((jokeInData) => {
       if (jokeInData.id === joke.id) {
-        isInCollection = true;
+        isInCollection = jokeInData;
       }
     });
 
     if (isInCollection) {
       const $checkButton = renderCheckedButton();
       $buttonHolder.append($checkButton);
+
+      if (isInCollection.favorite) {
+        changeToFaved($favButton);
+      }
     } else {
       const $addButton = renderAddButton();
       $buttonHolder.append($addButton);
@@ -393,17 +393,6 @@ function renderHollowFavButton(): HTMLButtonElement {
 
   $favButton.className = 'card-button fav';
   $favIcon.className = 'fa-regular fa-star fav';
-
-  $favButton.append($favIcon);
-  return $favButton;
-}
-
-function renderSolidFavedButton(): HTMLButtonElement {
-  const $favButton = document.createElement('button');
-  const $favIcon = document.createElement('i');
-
-  $favButton.className = 'card-button faved';
-  $favIcon.className = 'fa-solid fa-star faved';
 
   $favButton.append($favIcon);
   return $favButton;
