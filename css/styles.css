@@ -166,9 +166,11 @@ dialog::backdrop {
 
 .sort-holder {
   padding: 0.5rem;
+  align-items: center;
 }
 
 .sort {
   font-size: large;
   width: 12rem;
+  margin: 0.5rem;
 }
