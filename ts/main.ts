@@ -289,10 +289,12 @@ function addToCollection($card: HTMLDivElement): void {
 
   const $rendered = renderJoke(jokeInfo, 'collection');
 
-  if (favorite) {
-    $collection?.prepend($rendered);
-  } else {
-    $collection?.append($rendered);
+  if (category === $sort.value || $sort.value === 'All') {
+    if (favorite) {
+      $collection?.prepend($rendered);
+    } else {
+      $collection?.append($rendered);
+    }
   }
 
   const $addButton = $card.querySelector('.add');
