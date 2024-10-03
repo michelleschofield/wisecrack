@@ -129,20 +129,11 @@ function handleClick(event: Event): void {
 
   if ($eventTarget.matches('.add')) {
     addToCollection($card);
-    return;
-  }
-
-  if ($eventTarget.matches('.trash')) {
+  } else if ($eventTarget.matches('.trash')) {
     askForConfirmation($eventTarget);
-    return;
-  }
-
-  if ($eventTarget.matches('.fav')) {
+  } else if ($eventTarget.matches('.fav')) {
     markAsFaved($card);
-    return;
-  }
-
-  if ($eventTarget.matches('.faved')) {
+  } else if ($eventTarget.matches('.faved')) {
     unFavorite($card);
   }
 }
@@ -178,7 +169,7 @@ function markAsFaved($card: HTMLDivElement): void {
   const $view = $card.parentElement;
 
   if ($view?.matches('.collection')) {
-    $collection?.prepend($card.cloneNode(true));
+    $collection?.prepend($card);
   }
 
   $card.setAttribute('data-favorite', 'true');
