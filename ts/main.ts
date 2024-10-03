@@ -139,13 +139,12 @@ function handleClick(event: Event): void {
 }
 
 function unFavorite($card: HTMLDivElement): void {
-  console.log('unfavorite');
-
   const id = $card.getAttribute('data-id');
   if (!id) throw new Error('joke does not have an id');
 
   const jokeInData = data.find((joke) => joke.id === +id);
   delete jokeInData?.favorite;
+  writeData();
 
   $card.removeAttribute('data-favorite');
 
@@ -156,6 +155,22 @@ function unFavorite($card: HTMLDivElement): void {
     );
   }
   changeToHollowFav($starButton);
+
+  const $view = $card.parentElement;
+  let $otherCard;
+
+  if ($view?.matches('.collection')) {
+    $otherCard = $jokesContainer?.querySelector(`[data-id="${id}"]`);
+  } else if ($view?.matches('.jokes-container')) {
+    $otherCard = $collection?.querySelector(`[data-id="${id}"]`);
+  }
+
+  if ($otherCard) {
+    const $otherFavButton = $otherCard.querySelector(
+      '.faved',
+    ) as HTMLButtonElement;
+    if ($otherFavButton) changeToHollowFav($otherFavButton);
+  }
 }
 
 function markAsFaved($card: HTMLDivElement): void {
@@ -175,11 +190,9 @@ function markAsFaved($card: HTMLDivElement): void {
   $card.setAttribute('data-favorite', 'true');
   const jokeInData = data.find((joke) => joke.id === +id);
   if (jokeInData) {
-    console.log('joke is in data');
     jokeInData.favorite = 'true';
     writeData();
   } else {
-    console.log('joke is not in data');
     addToCollection($card);
   }
 }
