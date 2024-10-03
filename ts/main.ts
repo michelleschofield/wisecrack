@@ -128,11 +128,11 @@ function handleClick(event: Event): void {
   }
 
   if ($eventTarget.matches('.fav')) {
-    markAsFav($card);
+    markAsFaved($card);
   }
 }
 
-function markAsFav($card: HTMLDivElement): void {
+function markAsFaved($card: HTMLDivElement): void {
   const id = $card?.getAttribute('data-id');
   if (!id) throw new Error('joke does not have an id');
 
@@ -140,12 +140,14 @@ function markAsFav($card: HTMLDivElement): void {
   const jokeInData = data.find((joke) => joke.id === +id);
   if (jokeInData) {
     jokeInData.favorite = 'true';
+    $collection?.prepend($card);
   } else {
     addToCollection($card);
   }
 
-  const $favButton = $card.querySelector('.fav');
-  console.log($favButton);
+  const $favButton = $card.querySelector('.fav') as HTMLButtonElement;
+  if (!$favButton) throw new Error('$card does not have fav button');
+  changeToFaved($favButton);
 }
 
 function askForConfirmation($eventTarget: HTMLElement): void {
@@ -413,12 +415,22 @@ function renderTrashButton(): HTMLButtonElement {
 function renderCollection(): void {
   data.forEach((joke) => {
     const $card = renderJoke(joke, 'collection');
-    $collection?.append($card);
+    if (joke.favorite) {
+      $collection?.prepend($card);
+    } else {
+      $collection?.append($card);
+    }
   });
 }
 
-function changeToChecked($addButton: HTMLButtonElement): void {
-  const $icon = $addButton.firstChild as HTMLElement;
+function changeToChecked($button: HTMLButtonElement): void {
+  const $icon = $button.firstChild as HTMLElement;
   $icon.className = 'fa-solid fa-check checked';
-  $addButton.className = 'card-button checked';
+  $button.className = 'card-button checked';
+}
+
+function changeToFaved($button: HTMLButtonElement): void {
+  const $icon = $button.firstChild as HTMLElement;
+  $icon.className = 'fa-solid fa-star faved';
+  $button.className = 'card-button faved';
 }
