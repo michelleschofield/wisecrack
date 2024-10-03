@@ -40,6 +40,13 @@ function deleteConfirmed() {
   const index = data.findIndex((joke) => joke.id === +id);
   data.splice(index, 1);
   writeData();
+  const $cardInSearch = $jokesContainer?.querySelector(`[data-id="${id}"]`);
+  if ($cardInSearch) {
+    const $checkButton = $cardInSearch.querySelector('.checked');
+    const $buttonHolder = $checkButton?.parentElement;
+    $buttonHolder?.appendChild(renderAddButton());
+    $checkButton?.remove();
+  }
 }
 function viewSwap(event) {
   const $eventTarget = event.target;
