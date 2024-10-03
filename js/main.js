@@ -50,10 +50,14 @@ function deleteConfirmed() {
   $confirmationDialog.removeAttribute('data-deleting');
   const $cardInSearch = $jokesContainer?.querySelector(`[data-id="${id}"]`);
   if ($cardInSearch) {
-    const $checkButton = $cardInSearch.querySelector('.checked');
-    const $buttonHolder = $checkButton?.parentElement;
-    $buttonHolder?.appendChild(renderAddButton());
-    $checkButton?.remove();
+    const $checkButton = $cardInSearch.querySelector('button.checked');
+    if ($checkButton) {
+      changeToAdd($checkButton);
+    }
+    const $favedButton = $cardInSearch.querySelector('button.faved');
+    if ($favedButton) {
+      changeToHollowFav($favedButton);
+    }
   }
 }
 function viewSwap(event) {
@@ -321,4 +325,14 @@ function changeToFaved($button) {
   const $icon = $button.firstChild;
   $icon.className = 'fa-solid fa-star faved';
   $button.className = 'card-button faved';
+}
+function changeToHollowFav($button) {
+  const $icon = $button.firstChild;
+  $icon.className = 'fa-regular fa-star fav';
+  $button.className = 'card-button fav';
+}
+function changeToAdd($button) {
+  const $icon = $button.firstChild;
+  $icon.className = 'fa-solid fa-plus add';
+  $button.className = 'card-button add';
 }
