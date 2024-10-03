@@ -142,7 +142,7 @@ function markAsFaved($card) {
   }
   if ($otherCard) {
     const $otherFavButton = $otherCard.querySelector('.fav');
-    if ($otherFavButton) changeToHollowFav($otherFavButton);
+    if ($otherFavButton) changeToFaved($otherFavButton);
     $otherCard.setAttribute('data-favorite', 'true');
   }
   $card.setAttribute('data-favorite', 'true');

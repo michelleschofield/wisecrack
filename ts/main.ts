@@ -203,7 +203,7 @@ function markAsFaved($card: HTMLDivElement): void {
     const $otherFavButton = $otherCard.querySelector(
       '.fav',
     ) as HTMLButtonElement;
-    if ($otherFavButton) changeToHollowFav($otherFavButton);
+    if ($otherFavButton) changeToFaved($otherFavButton);
     $otherCard.setAttribute('data-favorite', 'true');
   }
 
