@@ -11,6 +11,7 @@ const $collection = document.querySelector('.collection');
 const $confirmationDialog = document.querySelector('.delete-confirmation');
 const $confirmButton = document.querySelector('.confirm');
 const $cancelButton = document.querySelector('.cancel');
+const $sort = document.querySelector('.sort');
 if (!$form) throw new Error('$form query failed');
 if (!$categories) throw new Error('$categories query failed');
 if (!$jokesContainer) throw new Error('$jokesContainer query failed');
@@ -21,6 +22,7 @@ if (!$collection) throw new Error('$collection query failed');
 if (!$confirmationDialog) throw new Error('$confirmationDialog query failed');
 if (!$confirmButton) throw new Error('$confirmButton query failed');
 if (!$cancelButton) throw new Error('$cancelButton query failed');
+if (!$sort) throw new Error('$sort query failed');
 $form.addEventListener('submit', handleSubmit);
 document.addEventListener('DOMContentLoaded', (event) => {
   handleSubmit(event);
@@ -31,6 +33,16 @@ $tabContainer.addEventListener('click', viewSwap);
 $collection.addEventListener('click', handleClick);
 $confirmButton.addEventListener('click', deleteConfirmed);
 $cancelButton.addEventListener('click', cancelDelete);
+$sort.addEventListener('change', sortCollection);
+function sortCollection() {
+  $collection?.replaceChildren();
+  const category = $sort?.value;
+  if (category === 'All') {
+    renderCollection();
+  } else {
+    renderCollection(category);
+  }
+}
 function cancelDelete() {
   $confirmationDialog.close();
   $confirmationDialog.removeAttribute('data-deleting');
@@ -345,9 +357,10 @@ function renderTrashButton() {
   $trashButton.append($trashIcon);
   return $trashButton;
 }
-function renderCollection() {
+function renderCollection(category) {
   data.forEach((joke) => {
     const $card = renderJoke(joke, 'collection');
+    if (category && joke.category !== category) return;
     if (joke.favorite) {
       $collection?.prepend($card);
     } else {
