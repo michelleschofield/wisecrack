@@ -110,8 +110,12 @@ function unFavorite($card) {
   let $otherCard;
   if ($view?.matches('.collection')) {
     $otherCard = $jokesContainer?.querySelector(`[data-id="${id}"]`);
+    $collection?.appendChild($card);
   } else if ($view?.matches('.jokes-container')) {
     $otherCard = $collection?.querySelector(`[data-id="${id}"]`);
+    if ($otherCard) {
+      $collection?.appendChild($otherCard);
+    }
   }
   if ($otherCard) {
     const $otherFavButton = $otherCard.querySelector('.faved');
