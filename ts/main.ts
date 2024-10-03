@@ -16,6 +16,7 @@ interface Joke {
   joke?: string;
   category: string;
   id: number;
+  favorite?: string;
 }
 
 interface FetchResponse {
@@ -115,8 +116,11 @@ function viewSwap(event: Event): void {
 
 function handleClick(event: Event): void {
   const $eventTarget = event.target as HTMLElement;
+  const $card = $eventTarget.closest('.card') as HTMLDivElement;
+  if (!$card) return;
+
   if ($eventTarget.matches('.add')) {
-    addToCollection($eventTarget);
+    addToCollection($card);
   }
 
   if ($eventTarget.matches('.trash')) {
@@ -124,26 +128,24 @@ function handleClick(event: Event): void {
   }
 
   if ($eventTarget.matches('.fav')) {
-    markAsFav($eventTarget);
+    markAsFav($card);
   }
 }
 
-function markAsFav($eventTarget: HTMLElement): void {
-  if ($eventTarget.tagName === 'BUTTON') {
-    $eventTarget.className = 'card-button faved';
+function markAsFav($card: HTMLDivElement): void {
+  const id = $card?.getAttribute('data-id');
+  if (!id) throw new Error('joke does not have an id');
 
-    const $icon = $eventTarget.firstChild as HTMLElement;
-    if (!$icon) throw new Error('button does not have icon');
-
-    $icon.className = 'fa-solid fa-star faved';
-  } else if ($eventTarget.tagName === 'I') {
-    $eventTarget.className = 'fa-solid fa-star faved';
-
-    const $button = $eventTarget.parentElement;
-    if (!$button) throw new Error('Add button does not have a button');
-
-    $button.className = 'card-button faved';
+  $card.setAttribute('data-favorite', 'true');
+  const jokeInData = data.find((joke) => joke.id === +id);
+  if (jokeInData) {
+    jokeInData.favorite = 'true';
+  } else {
+    addToCollection($card);
   }
+
+  const $favButton = $card.querySelector('.fav');
+  console.log($favButton);
 }
 
 function askForConfirmation($eventTarget: HTMLElement): void {
@@ -159,17 +161,11 @@ function askForConfirmation($eventTarget: HTMLElement): void {
   $confirmationDialog?.showModal();
 }
 
-function addToCollection($eventTarget: HTMLElement): void {
-  const $card = $eventTarget.closest('.card');
-  if (!$card) {
-    throw new Error(
-      'cannot add non-existent joke to collection and add button should only exist inside card',
-    );
-  }
-
+function addToCollection($card: HTMLDivElement): void {
   const id = $card.getAttribute('data-id');
   const category = $card.getAttribute('data-category');
   const type = $card.getAttribute('data-type');
+  const favorite = $card.getAttribute('data-favorite');
 
   if (!id) throw new Error('Joke does not have an id');
   if (!category) throw new Error('Joke does not have a category');
@@ -180,6 +176,12 @@ function addToCollection($eventTarget: HTMLElement): void {
     category,
     type,
   };
+
+  if (favorite) {
+    jokeInfo.favorite = favorite;
+  }
+
+  console.log(jokeInfo);
 
   if (type === 'single') {
     const joke = $card.textContent;
@@ -200,34 +202,13 @@ function addToCollection($eventTarget: HTMLElement): void {
     throw new Error('Joke is neither type single or twopart');
   }
 
-  let inCollection = false;
+  data.push(jokeInfo);
+  writeData();
+  $collection?.append(renderJoke(jokeInfo, 'collection'));
 
-  data.forEach((joke) => {
-    if (joke.id === jokeInfo.id) {
-      inCollection = true;
-    }
-  });
-
-  if (!inCollection) {
-    data.push(jokeInfo);
-    writeData();
-    $collection?.append(renderJoke(jokeInfo, 'collection'));
-  }
-
-  if ($eventTarget.tagName === 'BUTTON') {
-    $eventTarget.className = 'card-button checked';
-
-    const $icon = $eventTarget.firstChild as HTMLElement;
-    if (!$icon) throw new Error('button does not have icon');
-
-    $icon.className = 'fa-solid fa-check checked';
-  } else if ($eventTarget.tagName === 'I') {
-    $eventTarget.className = 'fa-solid fa-check checked';
-
-    const $button = $eventTarget.parentElement;
-    if (!$button) throw new Error('Add button does not have a button');
-
-    $button.className = 'card-button checked';
+  const $addButton = $card.querySelector('.add');
+  if ($addButton) {
+    changeToChecked($addButton as HTMLButtonElement);
   }
 }
 
@@ -304,6 +285,10 @@ function renderJoke(joke: Joke, view: string): HTMLDivElement {
   $card.setAttribute('data-id', `${joke.id}`);
   $card.setAttribute('data-category', joke.category);
   $card.setAttribute('data-type', joke.type);
+
+  if (joke.favorite) {
+    $card.setAttribute('data-favorite', `${joke.favorite}`);
+  }
 
   if (joke.joke) {
     const $joke = document.createElement('p');
@@ -410,4 +395,10 @@ function renderCollection(): void {
     const $card = renderJoke(joke, 'collection');
     $collection?.append($card);
   });
+}
+
+function changeToChecked($addButton: HTMLButtonElement): void {
+  const $icon = $addButton.firstChild as HTMLElement;
+  $icon.className = 'fa-solid fa-check checked';
+  $addButton.className = 'card-button checked';
 }
