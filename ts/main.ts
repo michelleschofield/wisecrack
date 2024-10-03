@@ -204,7 +204,14 @@ function addToCollection($card: HTMLDivElement): void {
 
   data.push(jokeInfo);
   writeData();
-  $collection?.append(renderJoke(jokeInfo, 'collection'));
+
+  const $rendered = renderJoke(jokeInfo, 'collection');
+
+  if (favorite) {
+    $collection?.prepend($rendered);
+  } else {
+    $collection?.append($rendered);
+  }
 
   const $addButton = $card.querySelector('.add');
   if ($addButton) {
@@ -286,10 +293,6 @@ function renderJoke(joke: Joke, view: string): HTMLDivElement {
   $card.setAttribute('data-category', joke.category);
   $card.setAttribute('data-type', joke.type);
 
-  if (joke.favorite) {
-    $card.setAttribute('data-favorite', `${joke.favorite}`);
-  }
-
   if (joke.joke) {
     const $joke = document.createElement('p');
 
@@ -315,10 +318,16 @@ function renderJoke(joke: Joke, view: string): HTMLDivElement {
   const $buttonHolder = document.createElement('div');
   $buttonHolder.className = 'row justify-right';
 
-  const $favButton = renderHollowFavButton();
-
-  $buttonHolder.append($favButton);
   $card.append($buttonHolder);
+
+  if (joke.favorite) {
+    $card.setAttribute('data-favorite', `${joke.favorite}`);
+    const $favedButton = renderSolidFavedButton();
+    $buttonHolder.append($favedButton);
+  } else {
+    const $favButton = renderHollowFavButton();
+    $buttonHolder.append($favButton);
+  }
 
   if (view === 'collection') {
     const $xButton = renderTrashButton();
@@ -374,6 +383,17 @@ function renderHollowFavButton(): HTMLButtonElement {
 
   $favButton.className = 'card-button fav';
   $favIcon.className = 'fa-regular fa-star fav';
+
+  $favButton.append($favIcon);
+  return $favButton;
+}
+
+function renderSolidFavedButton(): HTMLButtonElement {
+  const $favButton = document.createElement('button');
+  const $favIcon = document.createElement('i');
+
+  $favButton.className = 'card-button faved';
+  $favIcon.className = 'fa-solid fa-star faved';
 
   $favButton.append($favIcon);
   return $favButton;
