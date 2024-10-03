@@ -163,3 +163,14 @@ button:hover {
 dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+.sort-holder {
+  padding: 0.5rem;
+  align-items: center;
+}
+
+.sort {
+  font-size: large;
+  width: 12rem;
+  margin: 0.5rem;
+}

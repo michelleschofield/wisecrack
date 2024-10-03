@@ -39,6 +39,7 @@ const $confirmationDialog = document.querySelector(
 ) as HTMLDialogElement;
 const $confirmButton = document.querySelector('.confirm');
 const $cancelButton = document.querySelector('.cancel');
+const $sort = document.querySelector('.sort') as HTMLSelectElement;
 
 if (!$form) throw new Error('$form query failed');
 if (!$categories) throw new Error('$categories query failed');
@@ -50,6 +51,7 @@ if (!$collection) throw new Error('$collection query failed');
 if (!$confirmationDialog) throw new Error('$confirmationDialog query failed');
 if (!$confirmButton) throw new Error('$confirmButton query failed');
 if (!$cancelButton) throw new Error('$cancelButton query failed');
+if (!$sort) throw new Error('$sort query failed');
 
 $form.addEventListener('submit', handleSubmit);
 document.addEventListener('DOMContentLoaded', (event: Event) => {
@@ -61,6 +63,18 @@ $tabContainer.addEventListener('click', viewSwap);
 $collection.addEventListener('click', handleClick);
 $confirmButton.addEventListener('click', deleteConfirmed);
 $cancelButton.addEventListener('click', cancelDelete);
+$sort.addEventListener('change', sortCollection);
+
+function sortCollection(): void {
+  $collection?.replaceChildren();
+  const category = $sort?.value;
+
+  if (category === 'All') {
+    renderCollection();
+  } else {
+    renderCollection(category);
+  }
+}
 
 function cancelDelete(): void {
   $confirmationDialog.close();
@@ -104,6 +118,7 @@ function deleteConfirmed(): void {
 function viewSwap(event: Event): void {
   const $eventTarget = event.target as HTMLElement;
   const view = $eventTarget.getAttribute('data-tab');
+  if (!$eventTarget.matches('.tab')) return;
 
   $tabs.forEach(($tab) => {
     if ($tab.getAttribute('data-tab') === view) {
@@ -274,10 +289,12 @@ function addToCollection($card: HTMLDivElement): void {
 
   const $rendered = renderJoke(jokeInfo, 'collection');
 
-  if (favorite) {
-    $collection?.prepend($rendered);
-  } else {
-    $collection?.append($rendered);
+  if (category === $sort.value || $sort.value === 'All') {
+    if (favorite) {
+      $collection?.prepend($rendered);
+    } else {
+      $collection?.append($rendered);
+    }
   }
 
   const $addButton = $card.querySelector('.add');
@@ -468,9 +485,10 @@ function renderTrashButton(): HTMLButtonElement {
   return $trashButton;
 }
 
-function renderCollection(): void {
+function renderCollection(category?: string): void {
   data.forEach((joke) => {
     const $card = renderJoke(joke, 'collection');
+    if (category && joke.category !== category) return;
     if (joke.favorite) {
       $collection?.prepend($card);
     } else {
