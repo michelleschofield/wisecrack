@@ -185,10 +185,30 @@ function markAsFaved($card: HTMLDivElement): void {
   if (!$favButton) throw new Error('$card does not have fav button');
   changeToFaved($favButton);
 
+  // const $view = $card.parentElement;
+
+  // if ($view?.matches('.collection')) {
+  //   $collection?.prepend($card);
+  // }
+
   const $view = $card.parentElement;
+  let $otherCard;
 
   if ($view?.matches('.collection')) {
+    $otherCard = $jokesContainer?.querySelector(`[data-id="${id}"]`);
     $collection?.prepend($card);
+  } else if ($view?.matches('.jokes-container')) {
+    $otherCard = $collection?.querySelector(`[data-id="${id}"]`);
+    if ($otherCard) {
+      $collection?.prepend($otherCard);
+    }
+  }
+
+  if ($otherCard) {
+    const $otherFavButton = $otherCard.querySelector(
+      '.faved',
+    ) as HTMLButtonElement;
+    if ($otherFavButton) changeToHollowFav($otherFavButton);
   }
 
   $card.setAttribute('data-favorite', 'true');
