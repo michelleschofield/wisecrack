@@ -106,6 +106,10 @@ button:hover {
   background-color: rgb(255, 46, 46);
 }
 
+.faved {
+  background-color: rgb(255, 230, 91);
+}
+
 .small-grey-text {
   margin-top: 0;
   margin-bottom: 0;

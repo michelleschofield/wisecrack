@@ -122,6 +122,28 @@ function handleClick(event: Event): void {
   if ($eventTarget.matches('.trash')) {
     askForConfirmation($eventTarget);
   }
+
+  if ($eventTarget.matches('.fav')) {
+    markAsFav($eventTarget);
+  }
+}
+
+function markAsFav($eventTarget: HTMLElement): void {
+  if ($eventTarget.tagName === 'BUTTON') {
+    $eventTarget.className = 'card-button faved';
+
+    const $icon = $eventTarget.firstChild as HTMLElement;
+    if (!$icon) throw new Error('button does not have icon');
+
+    $icon.className = 'fa-solid fa-star faved';
+  } else if ($eventTarget.tagName === 'I') {
+    $eventTarget.className = 'fa-solid fa-star faved';
+
+    const $button = $eventTarget.parentElement;
+    if (!$button) throw new Error('Add button does not have a button');
+
+    $button.className = 'card-button faved';
+  }
 }
 
 function askForConfirmation($eventTarget: HTMLElement): void {
