@@ -84,28 +84,55 @@ function handleClick(event) {
   if (!$card) return;
   if ($eventTarget.matches('.add')) {
     addToCollection($card);
+    return;
   }
   if ($eventTarget.matches('.trash')) {
     askForConfirmation($eventTarget);
+    return;
   }
   if ($eventTarget.matches('.fav')) {
     markAsFaved($card);
+    return;
   }
+  if ($eventTarget.matches('.faved')) {
+    unFavorite($card);
+  }
+}
+function unFavorite($card) {
+  console.log('unfavorite');
+  const id = $card.getAttribute('data-id');
+  if (!id) throw new Error('joke does not have an id');
+  const jokeInData = data.find((joke) => joke.id === +id);
+  delete jokeInData?.favorite;
+  $card.removeAttribute('data-favorite');
+  const $starButton = $card.querySelector('.faved');
+  if (!$starButton) {
+    throw new Error(
+      'Joke is being marked as no longer favorite with the unfavorite button existing',
+    );
+  }
+  changeToHollowFav($starButton);
 }
 function markAsFaved($card) {
   const id = $card?.getAttribute('data-id');
   if (!id) throw new Error('joke does not have an id');
-  $card.setAttribute('data-favorite', 'true');
-  const jokeInData = data.find((joke) => joke.id === +id);
-  if (jokeInData) {
-    jokeInData.favorite = 'true';
-    $collection?.prepend($card);
-  } else {
-    addToCollection($card);
-  }
   const $favButton = $card.querySelector('.fav');
   if (!$favButton) throw new Error('$card does not have fav button');
   changeToFaved($favButton);
+  const $view = $card.parentElement;
+  if ($view?.matches('.collection')) {
+    $collection?.prepend($card.cloneNode(true));
+  }
+  $card.setAttribute('data-favorite', 'true');
+  const jokeInData = data.find((joke) => joke.id === +id);
+  if (jokeInData) {
+    console.log('joke is in data');
+    jokeInData.favorite = 'true';
+    writeData();
+  } else {
+    console.log('joke is not in data');
+    addToCollection($card);
+  }
 }
 function askForConfirmation($eventTarget) {
   const $card = $eventTarget.closest('.card');
