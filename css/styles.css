@@ -53,14 +53,15 @@ button:hover {
 
 .tab {
   padding: 0.5rem;
-  border: solid;
-  border-color: rgb(176, 176, 176);
+  border: solid 1.5px rgb(176, 176, 176);
   cursor: pointer;
+  border-bottom: none;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
 }
 
 .tab.active {
   background-color: rgb(255, 255, 255);
-  border-bottom: none;
   box-shadow: none;
 }
 
