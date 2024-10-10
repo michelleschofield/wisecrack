@@ -1,6 +1,6 @@
 'use strict';
 const $form = document.querySelector('form');
-const $categories = document.querySelectorAll('[data-category]');
+const $categoryBoxes = document.querySelectorAll('[data-category]');
 const $jokesContainer = document.querySelector('.jokes-container');
 const $noJokes = document.querySelector('.no-jokes');
 const $noCategories = document.querySelector('.no-categories');
@@ -13,7 +13,7 @@ const $confirmButton = document.querySelector('.confirm');
 const $cancelButton = document.querySelector('.cancel');
 const $sort = document.querySelector('.sort');
 if (!$form) throw new Error('$form query failed');
-if (!$categories) throw new Error('$categories query failed');
+if (!$categoryBoxes) throw new Error('$categories query failed');
 if (!$jokesContainer) throw new Error('$jokesContainer query failed');
 if (!$noJokes) throw new Error('$noJokes query failed');
 if (!$noCategories) throw new Error('$noCategories query failed');
@@ -225,52 +225,58 @@ function addToCollection($card) {
 }
 async function handleSubmit(event) {
   event.preventDefault();
-  if (!$form) throw new Error('$form does not exist');
-  if (!$noJokes) throw new Error('$noJokes does not exist');
-  if (!$noCategories) throw new Error('$noCategories does not exist');
-  const $formElements = $form.elements;
+  $jokesContainer.replaceChildren();
+  const { contains, type } = $form.elements;
   const categoriesArray = [];
-  $categories.forEach((checkbox) => {
+  $categoryBoxes.forEach((checkbox) => {
     if (checkbox.checked) categoriesArray.push(checkbox.value);
   });
   const categories = categoriesArray.join(',');
-  $jokesContainer?.replaceChildren();
   if (!categories.length) {
-    $noCategories.className = 'no-categories card';
-    $noJokes.className = 'no-jokes card hidden';
+    showNoCategories();
+    hideNoJokes();
     return;
   }
   const formValues = {
-    contains: $formElements.contains.value,
-    type: $formElements.type.value,
+    contains: contains.value,
+    type: type.value,
     categories,
   };
   try {
     const jokes = await getJokes(formValues);
     jokes.forEach((joke) => {
       const renderedJoke = renderJoke(joke, 'search');
-      $jokesContainer?.append(renderedJoke);
+      $jokesContainer.append(renderedJoke);
     });
-    $noCategories.className = 'no-categories card hidden';
-    $noJokes.className = 'no-jokes card hidden';
+    hideNoCategories();
+    hideNoJokes();
   } catch {
-    $noJokes.className = 'no-jokes card';
-    $noCategories.className = 'no-categories card hidden';
+    showNoJokes();
+    hideNoCategories();
   }
 }
 async function getJokes(parameters) {
   const { categories, type, contains } = parameters;
   const typeQuery = type === 'both' ? '' : `&type=${type}`;
-  let containsQuery = '';
-  if (contains.length) {
-    containsQuery = `&contains=${contains}`;
-  }
-  const url = `https://v2.jokeapi.dev/joke/${categories}?safe-mode${typeQuery}${containsQuery}&amount=10`;
+  const containsQuery = contains.length ? `&contains=${contains}` : '';
+  const url = `https://v2.jokeapi.dev/joke/${categories}?safe-mode${typeQuery}${containsQuery}&amount=20`;
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`HTTP Error! Error: ${response.status}`);
-  const jokesAndStuff = await response.json();
-  const jokes = jokesAndStuff.jokes;
+  if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+  const jokesAndInfo = await response.json();
+  const jokes = jokesAndInfo.jokes;
   return jokes;
+}
+function showNoJokes() {
+  $noJokes.className = 'no-jokes card';
+}
+function showNoCategories() {
+  $noCategories.className = 'no-categories card';
+}
+function hideNoJokes() {
+  $noJokes.className = 'no-jokes card hidden';
+}
+function hideNoCategories() {
+  $noCategories.className = 'no-categories card hidden';
 }
 function renderJoke(joke, view) {
   const $card = document.createElement('div');

@@ -24,25 +24,31 @@ interface FetchResponse {
 }
 
 const $form = document.querySelector('form') as HTMLFormElement;
-const $categories = document.querySelectorAll(
+const $categoryBoxes = document.querySelectorAll(
   '[data-category]',
 ) as NodeListOf<HTMLInputElement>;
-const $jokesContainer = document.querySelector('.jokes-container');
-const $noJokes = document.querySelector('.no-jokes');
-const $noCategories = document.querySelector('.no-categories');
-const $tabContainer = document.querySelector('.tab-container');
+const $jokesContainer = document.querySelector(
+  '.jokes-container',
+) as HTMLDivElement;
+const $noJokes = document.querySelector('.no-jokes') as HTMLDivElement;
+const $noCategories = document.querySelector(
+  '.no-categories',
+) as HTMLDivElement;
+const $tabContainer = document.querySelector(
+  '.tab-container',
+) as HTMLDivElement;
 const $views = document.querySelectorAll('[data-view]');
 const $tabs = document.querySelectorAll('[data-tab]');
-const $collection = document.querySelector('.collection');
+const $collection = document.querySelector('.collection') as HTMLDivElement;
 const $confirmationDialog = document.querySelector(
   '.delete-confirmation',
 ) as HTMLDialogElement;
-const $confirmButton = document.querySelector('.confirm');
-const $cancelButton = document.querySelector('.cancel');
+const $confirmButton = document.querySelector('.confirm') as HTMLButtonElement;
+const $cancelButton = document.querySelector('.cancel') as HTMLButtonElement;
 const $sort = document.querySelector('.sort') as HTMLSelectElement;
 
 if (!$form) throw new Error('$form query failed');
-if (!$categories) throw new Error('$categories query failed');
+if (!$categoryBoxes) throw new Error('$categories query failed');
 if (!$jokesContainer) throw new Error('$jokesContainer query failed');
 if (!$noJokes) throw new Error('$noJokes query failed');
 if (!$noCategories) throw new Error('$noCategories query failed');
@@ -305,30 +311,26 @@ function addToCollection($card: HTMLDivElement): void {
 
 async function handleSubmit(event: Event): Promise<void> {
   event.preventDefault();
+  $jokesContainer.replaceChildren();
 
-  if (!$form) throw new Error('$form does not exist');
-  if (!$noJokes) throw new Error('$noJokes does not exist');
-  if (!$noCategories) throw new Error('$noCategories does not exist');
+  const { contains, type } = $form.elements as FormElements;
 
-  const $formElements = $form.elements as FormElements;
   const categoriesArray: string[] = [];
 
-  $categories.forEach((checkbox) => {
+  $categoryBoxes.forEach((checkbox) => {
     if (checkbox.checked) categoriesArray.push(checkbox.value);
   });
   const categories = categoriesArray.join(',');
 
-  $jokesContainer?.replaceChildren();
-
   if (!categories.length) {
-    $noCategories.className = 'no-categories card';
-    $noJokes.className = 'no-jokes card hidden';
+    showNoCategories();
+    hideNoJokes();
     return;
   }
 
   const formValues = {
-    contains: $formElements.contains.value,
-    type: $formElements.type.value,
+    contains: contains.value,
+    type: type.value,
     categories,
   };
 
@@ -337,14 +339,14 @@ async function handleSubmit(event: Event): Promise<void> {
 
     jokes.forEach((joke) => {
       const renderedJoke = renderJoke(joke, 'search');
-      $jokesContainer?.append(renderedJoke);
+      $jokesContainer.append(renderedJoke);
     });
 
-    $noCategories.className = 'no-categories card hidden';
-    $noJokes.className = 'no-jokes card hidden';
+    hideNoCategories();
+    hideNoJokes();
   } catch {
-    $noJokes.className = 'no-jokes card';
-    $noCategories.className = 'no-categories card hidden';
+    showNoJokes();
+    hideNoCategories();
   }
 }
 
@@ -353,20 +355,33 @@ async function getJokes(parameters: FetchParameters): Promise<Joke[]> {
 
   const typeQuery = type === 'both' ? '' : `&type=${type}`;
 
-  let containsQuery = '';
-  if (contains.length) {
-    containsQuery = `&contains=${contains}`;
-  }
+  const containsQuery = contains.length ? `&contains=${contains}` : '';
 
-  const url = `https://v2.jokeapi.dev/joke/${categories}?safe-mode${typeQuery}${containsQuery}&amount=10`;
+  const url = `https://v2.jokeapi.dev/joke/${categories}?safe-mode${typeQuery}${containsQuery}&amount=20`;
   const response = await fetch(url);
 
-  if (!response.ok) throw new Error(`HTTP Error! Error: ${response.status}`);
+  if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
-  const jokesAndStuff = (await response.json()) as FetchResponse;
+  const jokesAndInfo = (await response.json()) as FetchResponse;
 
-  const jokes = jokesAndStuff.jokes;
+  const jokes = jokesAndInfo.jokes;
   return jokes;
+}
+
+function showNoJokes(): void {
+  $noJokes.className = 'no-jokes card';
+}
+
+function showNoCategories(): void {
+  $noCategories.className = 'no-categories card';
+}
+
+function hideNoJokes(): void {
+  $noJokes.className = 'no-jokes card hidden';
+}
+
+function hideNoCategories(): void {
+  $noCategories.className = 'no-categories card hidden';
 }
 
 function renderJoke(joke: Joke, view: string): HTMLDivElement {
