@@ -427,8 +427,8 @@ function renderJoke(joke: Joke, view: string): HTMLDivElement {
   }
 
   if (view === 'collection') {
-    const $xButton = renderTrashButton();
-    $buttonHolder.append($xButton);
+    const $trashButton = renderTrashButton();
+    $buttonHolder.append($trashButton);
   } else if (view === 'search') {
     let isInCollection: Joke | undefined;
 

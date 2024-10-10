@@ -309,8 +309,8 @@ function renderJoke(joke, view) {
     changeToFaved($favButton);
   }
   if (view === 'collection') {
-    const $xButton = renderTrashButton();
-    $buttonHolder.append($xButton);
+    const $trashButton = renderTrashButton();
+    $buttonHolder.append($trashButton);
   } else if (view === 'search') {
     let isInCollection;
     data.forEach((jokeInData) => {
