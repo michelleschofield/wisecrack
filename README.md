@@ -1,3 +1,4 @@
-# front-end-project
+# wisecrack
 
-A dynamic HTML, CSS, and TypeScript solo project.
+A dynamic HTML, CSS, and TypeScript website that allows users to find and collect jokes.
+
